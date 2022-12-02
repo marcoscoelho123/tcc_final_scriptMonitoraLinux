@@ -1,0 +1,50 @@
+CREATE USER IF NOT EXISTS 'monitor'@'localhost'
+IDENTIFIED BY 'SenhaInicial';
+
+GRANT ALL PRIVILEGES 
+ON *.* 
+TO 'monitor'@'localhost';
+
+CREATE DATABASE IF NOT EXISTS monitoria
+DEFAULT CHARACTER SET UTF8MB4
+DEFAULT COLLATE UTF8MB4_general_ci;
+
+USE monitoria;
+CREATE TABLE IF NOT EXISTS ip (
+	ip VARCHAR(255) NOT NULL,
+	PRIMARY KEY(ip)
+) DEFAULT charset = UTF8MB4;
+
+
+
+CREATE TABLE IF NOT EXISTS coleta (
+	cpu FLOAT(25) NULL,
+	mem_total FLOAT(25) NULL,
+	mem_used FLOAT(25) NULL,
+	mem_available FLOAT(25) NULL,
+	swap_total FLOAT(25) NULL,
+	swap_used FLOAT(25) NULL,
+	swap_free FLOAT(25) NULL,
+	hora TIME,
+	dia DATE,
+	par_ip VARCHAR(255),
+	FOREIGN KEY(par_ip) REFERENCES ip(ip)
+) DEFAULT charset = UTF8MB4;
+
+CREATE TABLE IF NOT EXISTS filesystems (
+	fs VARCHAR(255),
+	used VARCHAR(255),
+	hora TIME,
+	dia DATE,
+	par_ip VARCHAR(255),
+	FOREIGN KEY(par_ip) REFERENCES ip(ip)
+) DEFAULT charset = UTF8MB4;
+
+CREATE TABLE IF NOT EXISTS IO (
+	particao VARCHAR(30),
+	uso VARCHAR(30),
+	hora TIME,
+	dia DATE,
+	par_ip VARCHAR(255),
+	FOREIGN KEY(par_ip) REFERENCES ip(ip)
+) DEFAULT charset = UTF8MB4;
